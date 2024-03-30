@@ -14,6 +14,9 @@ gem "puma", ">= 5.0"
 # Autoload dotenv in Rails
 gem 'dotenv-rails', '~> 3.1', groups: [:development, :test]
 
+# A pure ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard
+gem 'jwt', '~> 2.8', '>= 2.8.1'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
