@@ -4,17 +4,18 @@ class Api::V1::ProductsController < ApplicationController
   before_action :check_owner, only: %i[update destroy]
 
   def index
-    render json: Product.all
+    @products = Product.all
+    render json: ProductBlueprint.render(@products)
   end
 
   def show
-    render json: @product
+    render json: ProductBlueprint.render(@product)
   end
 
   def create
     product = current_user.products.build(product_params)
     if product.save
-      render json: product, status: :created
+      render json: ProductBlueprint.render(product), status: :created
     else
       render json: { error: product.errors }, 
              status: :unprocessable_entity
@@ -23,7 +24,7 @@ class Api::V1::ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      render json: @product, status: :ok
+      render json: ProductBlueprint.render(@product), status: :ok
     else
       render json: @product.errors, status: :unprocessable_entity
     end
