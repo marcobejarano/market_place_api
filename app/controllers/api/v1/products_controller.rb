@@ -9,7 +9,7 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def show
-    render json: ProductBlueprint.render(@product)
+    render json: ProductBlueprint.custom_render(@product)
   end
 
   def create
