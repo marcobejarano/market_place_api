@@ -20,6 +20,9 @@ gem 'jwt', '~> 2.8', '>= 2.8.1'
 # Faker, a port of Data::Faker from Perl, is used to easily generate fake data: names, addresses, phone numbers, etc.
 gem 'faker', '~> 3.3'
 
+# Blueprinter is a JSON Object Presenter for Ruby that takes business objects and breaks them down into simple hashes and serializes them to JSON.
+gem 'blueprinter', '~> 1.0', '>= 1.0.2'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
