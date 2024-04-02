@@ -37,4 +37,31 @@ class OrderBlueprint < Blueprinter::Base
 
     { "data": hash_data, "included": hash_included }
   end
+
+  def self.custom_render(order)
+    hash_data = {}
+    hash_data[:id] = order.id
+    hash_data[:type] = "order"
+    hash_data[:attributes] = {}
+    hash_data[:attributes][:total] = order.total
+    hash_data[:relationships] = {}
+    hash_data[:relationships][:products] = {}
+    hash_data[:relationships][:products][:data] = order.products.map {
+      |product| { id: product.id, type: "product" }
+    }
+
+    hash_included = order.products.map {
+      |product| {
+        id: product.id,
+        type: "product",
+        attributes: {
+          title: product.title,
+          price: product.price.to_s,
+          published: product.published
+        }
+      }
+    }
+
+    { "data": hash_data, "included": hash_included }
+  end
 end
