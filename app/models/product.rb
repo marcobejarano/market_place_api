@@ -4,6 +4,8 @@ class Product < ApplicationRecord
     greater_than_or_equal_to: 0
   }, presence: true
 
+  belongs_to :user
+
   scope :filter_by_title, lambda { 
     |keyword| where(
       'lower(title) LIKE ?',
@@ -27,5 +29,19 @@ class Product < ApplicationRecord
     order(:updated_at)
   }
   
-  belongs_to :user
+  def self.search(params = {})
+    products = params[:product_ids].present? ? 
+      Product.where(id: params[:product_ids]) :
+      Product.all
+
+    products = products.filter_by_title(params[:keyword]) if
+      params[:keyword]
+    products = products.above_or_equal_to_price(params[:min_price].to_f) if
+      params[:min_price]
+    products = products.below_or_equal_to_price(params[:max_price].to_f) if
+      params[:max_price]
+    products = products.recent if params[:recent]
+
+    products
+  end
 end
