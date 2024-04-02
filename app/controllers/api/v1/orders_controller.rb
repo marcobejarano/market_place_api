@@ -1,5 +1,5 @@
 class Api::V1::OrdersController < ApplicationController
-  before_action :check_login, only: %i[index show]
+  before_action :check_login, only: %i[index show create]
   
   def index
     render json: OrderBlueprint.index_custom_render(current_user.orders)
@@ -13,5 +13,21 @@ class Api::V1::OrdersController < ApplicationController
     else
       head :not_found
     end
+  end
+
+  def create
+    order = current_user.orders.build(order_params)
+
+    if order.save
+      render json: order, status: :created
+    else
+      render json: { errors: order.errors }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def order_params
+    params.require(:order).permit(:total, product_ids: [])
   end
 end
