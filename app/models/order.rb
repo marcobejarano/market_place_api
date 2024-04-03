@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   include ActiveModel::Validations
   before_validation :set_total!
+  after_commit :set_total!, on: [:create, :update]
   
   belongs_to :user
   has_many :placements, dependent: :destroy
@@ -11,14 +12,10 @@ class Order < ApplicationRecord
   }, presence: true
   validates_with EnoughProductsValidator
 
-  after_commit :update_total, on: [:create, :update]
-
   def set_total!
-    self.total = products.sum(:price)
-  end
-
-  def update_total
-    update_column(:total, products.sum(:price))
+    self.total = self.placements.map{
+      |placement| placement.product.price * placement.quantity
+    }.sum
   end
 
   # @param product_ids_and_quantities [Array<Hash>] something like this `[{product_id: 1, quantity: 2}]`
