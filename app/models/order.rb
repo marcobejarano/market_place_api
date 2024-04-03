@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  include ActiveModel::Validations
   before_validation :set_total!
   
   belongs_to :user
@@ -8,6 +9,7 @@ class Order < ApplicationRecord
   validates :total, numericality: {
     greater_than_or_equal_to: 0
   }, presence: true
+  validates_with EnoughProductsValidator
 
   after_commit :update_total, on: [:create, :update]
 
