@@ -6,6 +6,7 @@ one:
   published: false
   user: one
   updated_at: <%= 1.hour.ago %>
+  quantity: 5
 
 two:
   title: Azos Zeenbok
@@ -13,6 +14,7 @@ two:
   published: false
   user: two
   updated_at: <%= 2.hour.ago %>
+  quantity: 5
 
 another_tv:
   title: Cheap TV
@@ -20,4 +22,5 @@ another_tv:
   published: false
   user: two
   updated_at: <%= 3.hour.ago %>
+  quantity: 5
   
